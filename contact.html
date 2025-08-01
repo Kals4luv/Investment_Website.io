@@ -217,6 +217,54 @@
                                 <div class="col-12">
                                     <button class="btn btn-primary w-100 py-3">Send Message</button>
                                 </div>
+                                <div class="col-12">
+                                    <!-- PayPal Payment Button with User Details -->
+                                    <div class="mb-3">
+                                        <label for="paymentAmount" class="form-label">Amount (USD)</label>
+                                        <input type="number" class="form-control" id="paymentAmount" placeholder="Enter amount" min="1" value="10">
+                                    </div>
+                                    <div id="paypal-button-container" class="mb-4"></div>
+                                    <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=USD"></script>
+                                    <script>
+                                        function getUserDetails() {
+                                            return {
+                                                name: document.getElementById('name').value,
+                                                email: document.getElementById('email').value,
+                                                phone: document.getElementById('phone').value,
+                                                amount: document.getElementById('paymentAmount').value
+                                            };
+                                        }
+                                        paypal.Buttons({
+                                            style: {
+                                                layout: 'vertical',
+                                                color:  'blue',
+                                                shape:  'rect',
+                                                label:  'paypal'
+                                            },
+                                            createOrder: function(data, actions) {
+                                                var user = getUserDetails();
+                                                if (!user.name || !user.email || !user.phone || !user.amount || user.amount <= 0) {
+                                                    alert('Please fill in your name, email, phone, and a valid amount before payment.');
+                                                    return;
+                                                }
+                                                return actions.order.create({
+                                                    purchase_units: [{
+                                                        amount: {
+                                                            value: user.amount
+                                                        },
+                                                        description: 'Payment by ' + user.name + ' (' + user.email + ', ' + user.phone + ')'
+                                                    }]
+                                                });
+                                            },
+                                            onApprove: function(data, actions) {
+                                                return actions.order.capture().then(function(details) {
+                                                    var user = getUserDetails();
+                                                    alert('Transaction completed by ' + user.name + ' (' + user.email + ', ' + user.phone + ')!');
+                                                });
+                                            }
+                                        }).render('#paypal-button-container');
+                                    </script>
+                                </div>
                             </div>
                         </form>
                     </div>
