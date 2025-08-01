@@ -780,6 +780,28 @@
         </div>
         <!-- Footer End -->
 
+        <!-- Broker Integration Start -->
+        <div class="container py-5">
+            <h2 class="mb-4 text-primary">Broker Integration</h2>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3">
+                    <button class="btn btn-outline-primary w-100 mb-2" onclick="getKrakenTickerUI()">Kraken BTC/USD</button>
+                    <div id="kraken-result" class="small"></div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <button class="btn btn-outline-warning w-100 mb-2" onclick="getBinanceTickerUI()">Binance BTC/USDT</button>
+                    <div id="binance-result" class="small"></div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <button class="btn btn-outline-dark w-100 mb-2" onclick="showIBNotice()">Interactive Brokers LLC</button>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <button class="btn btn-outline-success w-100 mb-2" onclick="showJPmorganNotice()">JP Morgan</button>
+                </div>
+            </div>
+        </div>
+        <!-- Broker Integration End -->
+
         
         <!-- Copyright Start -->
         <div class="container-fluid copyright py-4">
@@ -816,6 +838,30 @@
     
 
     <!-- Template Javascript -->
+    <script src="js/broker-integration.js"></script>
+    <script>
+        // UI helpers for broker integration
+        async function getKrakenTickerUI() {
+            document.getElementById('kraken-result').innerText = 'Loading...';
+            try {
+                const data = await getKrakenTicker();
+                const pair = Object.keys(data.result)[0];
+                const price = data.result[pair].c[0];
+                document.getElementById('kraken-result').innerText = `BTC/USD: $${parseFloat(price).toLocaleString()}`;
+            } catch (e) {
+                document.getElementById('kraken-result').innerText = 'Error fetching data.';
+            }
+        }
+        async function getBinanceTickerUI() {
+            document.getElementById('binance-result').innerText = 'Loading...';
+            try {
+                const data = await getBinanceTicker();
+                document.getElementById('binance-result').innerText = `BTC/USDT: $${parseFloat(data.price).toLocaleString()}`;
+            } catch (e) {
+                document.getElementById('binance-result').innerText = 'Error fetching data.';
+            }
+        }
+    </script>
     <script src="js/main.js"></script>
     </body>
 

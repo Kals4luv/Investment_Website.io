@@ -218,12 +218,33 @@
                                     <button class="btn btn-primary w-100 py-3">Send Message</button>
                                 </div>
                                 <div class="col-12">
-                                    <!-- PayPal Payment Button with User Details -->
-                                    <div class="mb-3">
-                                        <label for="paymentAmount" class="form-label">Amount (USD)</label>
-                                        <input type="number" class="form-control" id="paymentAmount" placeholder="Enter amount" min="1" value="10">
+                                    <!-- Enhanced PayPal Payment Section -->
+                                    <div class="card shadow-sm border-0 mb-4">
+                                        <div class="card-body">
+                                            <h5 class="card-title text-primary mb-3"><i class="fab fa-paypal me-2"></i>Secure Payment</h5>
+                                            <div class="row g-3 align-items-center mb-2">
+                                                <div class="col-12 col-md-6">
+                                                    <label for="paymentAmount" class="form-label mb-1">Amount (USD)</label>
+                                                    <div class="input-group">
+                                                        <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                                                        <input type="number" class="form-control" id="paymentAmount" placeholder="Enter amount" min="1" value="10">
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <label class="form-label mb-1">Payment Method</label>
+                                                    <div class="d-flex align-items-center">
+                                                        <span class="badge bg-primary me-2"><i class="fab fa-paypal"></i> PayPal</span>
+                                                        <span class="text-muted small">(Card/Account)</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="paypal-button-container" class="my-3"></div>
+                                            <div class="alert alert-info py-2 px-3 mb-0" style="font-size: 0.95em;">
+                                                <i class="fas fa-info-circle me-1"></i>
+                                                Please ensure your name, email, phone, and amount are filled in above before proceeding to payment.
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div id="paypal-button-container" class="mb-4"></div>
                                     <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=USD"></script>
                                     <script>
                                         function getUserDetails() {
@@ -239,7 +260,8 @@
                                                 layout: 'vertical',
                                                 color:  'blue',
                                                 shape:  'rect',
-                                                label:  'paypal'
+                                                label:  'paypal',
+                                                height: 45
                                             },
                                             createOrder: function(data, actions) {
                                                 var user = getUserDetails();
