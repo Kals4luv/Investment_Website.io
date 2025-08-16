@@ -977,4 +977,22 @@ document.getElementById('applyBtn').addEventListener('click', function(e) {
     </script>
     </body>
 
+<script>
+// Make all <a> and <button> elements with href="#" or empty hrefs clickable
+document.addEventListener('DOMContentLoaded', function() {
+    // For <a> tags
+    document.querySelectorAll('a[href="#"], a:not([href])').forEach(function(el) {
+        el.addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('Button clicked!');
+        });
+    });
+    // For <button> tags without onclick
+    document.querySelectorAll('button:not([onclick])').forEach(function(el) {
+        el.addEventListener('click', function(e) {
+            alert('Button clicked!');
+        });
+    });
+});
+</script>
 </html>
