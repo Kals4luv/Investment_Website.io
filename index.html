@@ -911,6 +911,77 @@
         }
     </script>
     <script src="js/main.js"></script>
+
+    <script>
+    // Frontend logic for registration, login, and profile
+    let currentUserEmail = null;
+
+    document.getElementById('registerForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const name = document.getElementById('registerName').value;
+        const email = document.getElementById('registerEmail').value;
+        const password = document.getElementById('registerPassword').value;
+        try {
+            const res = await fetch('http://localhost:5000/api/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, email, password })
+            });
+            const data = await res.json();
+            if (res.ok) {
+                alert('Registration successful! You can now login.');
+                document.getElementById('registerForm').reset();
+            } else {
+                alert(data.message || 'Registration failed');
+            }
+        } catch {
+            alert('Registration failed. Server error.');
+        }
+    });
+
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const email = document.getElementById('loginEmail').value;
+        const password = document.getElementById('loginPassword').value;
+        try {
+            const res = await fetch('http://localhost:5000/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password })
+            });
+            const data = await res.json();
+            if (res.ok) {
+                currentUserEmail = data.email;
+                document.getElementById('profileContent').innerHTML = `<h5>Welcome, ${data.name}!</h5><p>Email: ${data.email}</p>`;
+                alert('Login successful!');
+                document.getElementById('loginForm').reset();
+            } else {
+                alert(data.message || 'Login failed');
+            }
+        } catch {
+            alert('Login failed. Server error.');
+        }
+    });
+
+    // Show profile info when profile tab is clicked
+    document.getElementById('profile-tab').addEventListener('click', async function() {
+        if (!currentUserEmail) {
+            document.getElementById('profileContent').innerHTML = '<p class="text-muted">Please login to view your profile.</p>';
+            return;
+        }
+        try {
+            const res = await fetch(`http://localhost:5000/api/profile?email=${encodeURIComponent(currentUserEmail)}`);
+            const data = await res.json();
+            if (res.ok) {
+                document.getElementById('profileContent').innerHTML = `<h5>Welcome, ${data.name}!</h5><p>Email: ${data.email}</p>`;
+            } else {
+                document.getElementById('profileContent').innerHTML = `<p class="text-danger">${data.message || 'Profile not found.'}</p>`;
+            }
+        } catch {
+            document.getElementById('profileContent').innerHTML = '<p class="text-danger">Error loading profile.</p>';
+        }
+    });
+    </script>
     </body>
 
 </html>
