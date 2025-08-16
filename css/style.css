@@ -1,4 +1,3 @@
-
 /*** Spinner Start ***/
 /*** Spinner ***/
 #spinner {
@@ -954,3 +953,8 @@
     background: var(--bs-dark) !important;
 }
 /*** copyright end ***/
+
+body {
+    background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+    /* Playful pastel gradient: peach to pink */
+}
