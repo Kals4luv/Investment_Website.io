@@ -425,4 +425,20 @@
     <script src="js/main.js"></script>
     </body>
 
+<script>
+// Make all <a> and <button> elements with href="#" or empty hrefs clickable
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('a[href="#"], a:not([href])').forEach(function(el) {
+        el.addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('Button clicked!');
+        });
+    });
+    document.querySelectorAll('button:not([onclick])').forEach(function(el) {
+        el.addEventListener('click', function(e) {
+            alert('Button clicked!');
+        });
+    });
+});
+</script>
 </html>
