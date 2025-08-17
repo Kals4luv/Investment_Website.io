@@ -227,7 +227,14 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ name, email, password })
             });
-            const data = await res.json();
+            let data = {};
+            try {
+                data = await res.json();
+            } catch (jsonErr) {
+                msg.textContent = 'Error parsing server response.';
+                msg.className = 'mt-3 text-danger';
+                return;
+            }
             if (res.ok) {
                 msg.textContent = 'Registration successful! Redirecting...';
                 msg.className = 'mt-3 text-success';
@@ -237,11 +244,15 @@
                     window.location.href = 'profile.html';
                 }, 1400);
             } else {
-                msg.textContent = data.message || 'Registration failed.';
+                msg.textContent = (data.message ? data.message : 'Registration failed. Status: ' + res.status);
                 msg.className = 'mt-3 text-danger';
             }
-        } catch {
-            msg.textContent = 'Server error. Please try again.';
+        } catch (err) {
+            if (err instanceof TypeError && err.message.includes('Failed to fetch')) {
+                msg.textContent = 'Network error: Could not reach server. Is it running? Check CORS settings.';
+            } else {
+                msg.textContent = 'Unexpected error: ' + err.message;
+            }
             msg.className = 'mt-3 text-danger';
         }
     });
