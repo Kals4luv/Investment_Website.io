@@ -3,6 +3,39 @@
 
     <head>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
+    <style>
+        .floating-contact-btn {
+            position: fixed;
+            right: 24px;
+            bottom: 24px;
+            z-index: 999;
+            background: linear-gradient(90deg, #ff6f61 0%, #4a90e2 100%);
+            color: #fff;
+            border-radius: 50px;
+            box-shadow: 0 2px 12px #4a90e244;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .floating-contact-btn:hover {
+            transform: scale(1.08);
+            box-shadow: 0 0 24px #4a90e288;
+        }
+        .security-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 2rem;
+            animation: badgeBounce 1.2s infinite alternate;
+        }
+        @keyframes badgeBounce {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.08); }
+        }
+    </style>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
         <meta charset="utf-8">
         <title>KalsXprezz Investments</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -33,6 +66,16 @@
     </head>
 
     <body>
+    <button class="floating-contact-btn" onclick="window.location.href='contact.html'">
+        <i class="fas fa-envelope"></i> Contact Us
+    </button>
+    <div class="security-badge">
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="20" cy="20" r="18" fill="#a1c4fd" stroke="#4a90e2" stroke-width="2"/>
+            <path d="M13 20l4 4 7-7" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span style="margin-left:10px;color:#4a90e2;font-weight:600;">Secure About</span>
+    </div>
 
         <!-- Spinner Start -->
         <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
