@@ -10,7 +10,8 @@
 #spinner.show {
     transition: opacity .5s ease-out, visibility 0s linear 0s;
     visibility: visible;
-    opacity: 1;
+    background: linear-gradient(120deg, #fcb69f 0%, #a1c4fd 100%);
+    animation: gradientMoveBg 8s ease-in-out infinite alternate;
 }
 /*** Spinner End ***/
 
