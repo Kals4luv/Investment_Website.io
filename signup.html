@@ -12,20 +12,68 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            background: linear-gradient(135deg, #fcb69f 0%, #a1c4fd 100%);
         }
         .signup-container {
-            background: rgba(255,255,255,0.95);
+            background: rgba(255,255,255,0.97);
             padding: 2rem 2.5rem;
-            border-radius: 1rem;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            border-radius: 1.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.12);
             max-width: 400px;
             width: 100%;
+            animation: popIn 0.8s cubic-bezier(.68,-0.55,.27,1.55) both;
+            border: 2px solid #ff6f61;
+            box-shadow: 0 0 24px 2px #ff6f6144;
+        }
+        @keyframes popIn {
+            0% { transform: scale(0.7); opacity: 0; }
+            80% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(1); }
+        }
+        .catchy-header {
+            font-family: 'Roboto', cursive, sans-serif;
+            font-size: 2.2rem;
+            background: linear-gradient(90deg, #ff6f61, #4a90e2, #fcb69f);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+            animation: gradientMove 2.5s infinite linear;
+        }
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+        .catchy-sub {
+            font-size: 1.1rem;
+            color: #4a90e2;
+            margin-bottom: 1.5rem;
+        }
+        .brand-logo {
+            display: block;
+            margin: 0 auto 1rem auto;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            box-shadow: 0 2px 12px #a1c4fd66;
+        }
+        .btn-primary {
+            background: linear-gradient(90deg, #ff6f61 0%, #4a90e2 100%);
+            border: none;
+            transition: box-shadow 0.2s, transform 0.2s;
+        }
+        .btn-primary:hover {
+            box-shadow: 0 0 16px #4a90e288;
+            transform: scale(1.05);
         }
     </style>
 </head>
 <body>
     <div class="signup-container">
-        <h2 class="mb-4 text-primary text-center">Sign Up</h2>
+        <img src="img/logo.png" alt="KalsXprezz Logo" class="brand-logo">
+        <div class="catchy-header text-center">Join the Fun!</div>
+        <div class="catchy-sub text-center">Create your KalsXprezz account and start investing smarter.</div>
         <form id="registerForm">
             <div class="mb-3">
                 <label for="registerName" class="form-label">Name</label>
@@ -47,6 +95,28 @@
         </div>
     </div>
     <script>
+    // Confetti effect
+    function showConfetti() {
+        for (let i = 0; i < 60; i++) {
+            const conf = document.createElement('div');
+            conf.style.position = 'fixed';
+            conf.style.left = Math.random() * 100 + 'vw';
+            conf.style.top = '-20px';
+            conf.style.width = conf.style.height = Math.random() * 8 + 6 + 'px';
+            conf.style.background = `hsl(${Math.random()*360},80%,70%)`;
+            conf.style.borderRadius = '50%';
+            conf.style.opacity = '0.8';
+            conf.style.zIndex = '9999';
+            conf.style.transition = 'top 1.2s linear, opacity 0.8s';
+            document.body.appendChild(conf);
+            setTimeout(() => {
+                conf.style.top = '100vh';
+                conf.style.opacity = '0';
+            }, 50);
+            setTimeout(() => conf.remove(), 1400);
+        }
+    }
+
     document.getElementById('registerForm').addEventListener('submit', async function(e) {
         e.preventDefault();
         const name = document.getElementById('registerName').value;
@@ -65,6 +135,7 @@
                 msg.textContent = 'Registration successful! You can now login.';
                 msg.className = 'mt-3 text-success';
                 document.getElementById('registerForm').reset();
+                showConfetti();
             } else {
                 msg.textContent = data.message || 'Registration failed.';
                 msg.className = 'mt-3 text-danger';
