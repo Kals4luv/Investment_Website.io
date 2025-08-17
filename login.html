@@ -59,9 +59,12 @@
             });
             const data = await res.json();
             if (res.ok) {
-                msg.textContent = `Welcome, ${data.name}!`;
+                msg.textContent = `Welcome, ${data.name}! Redirecting...`;
                 msg.className = 'mt-3 text-success';
                 document.getElementById('loginForm').reset();
+                setTimeout(function() {
+                    window.location.href = 'profile.html';
+                }, 1200);
             } else {
                 msg.textContent = data.message || 'Login failed.';
                 msg.className = 'mt-3 text-danger';

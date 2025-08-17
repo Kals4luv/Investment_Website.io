@@ -230,10 +230,13 @@
             });
             const data = await res.json();
             if (res.ok) {
-                msg.textContent = 'Registration successful! You can now login.';
+                msg.textContent = 'Registration successful! Redirecting...';
                 msg.className = 'mt-3 text-success';
                 document.getElementById('registerForm').reset();
                 showConfetti();
+                setTimeout(function() {
+                    window.location.href = 'profile.html';
+                }, 1400);
             } else {
                 msg.textContent = data.message || 'Registration failed.';
                 msg.className = 'mt-3 text-danger';
