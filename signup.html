@@ -7,6 +7,29 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
     <style>
+        .footer-social {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 2.5rem;
+        }
+        .footer-social a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4a90e2 0%, #ff6f61 100%);
+            color: #fff;
+            font-size: 1.3rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .footer-social a:hover {
+            transform: scale(1.15);
+            box-shadow: 0 0 12px #ffb6b9;
+            background: linear-gradient(135deg, #ff6f61 0%, #4a90e2 100%);
+        }
         .btn-primary {
             animation: ctaPulse 1.5s infinite alternate;
         }
@@ -107,6 +130,12 @@
     </style>
 </head>
 <body>
+    <div class="footer-social">
+        <a href="https://facebook.com" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://twitter.com" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a>
+        <a href="https://instagram.com" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="https://linkedin.com" target="_blank" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+    </div>
     <button class="floating-contact-btn" onclick="window.location.href='contact.html'">
         <i class="fas fa-envelope"></i> Contact Us
     </button>
