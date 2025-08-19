@@ -4,6 +4,32 @@
     <head>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
     <style>
+        /* Animated themed icons for busy modal background */
+        .busy-bg-icon {
+            position: absolute;
+            opacity: 0.18;
+            z-index: 2;
+            animation: busyIconMove 8s linear infinite alternate;
+        }
+        .busy-bg-icon.icon-bitcoin {
+            top: 30px; left: 40px;
+            width: 48px; height: 48px;
+            animation-delay: 0s;
+        }
+        .busy-bg-icon.icon-tech {
+            bottom: 40px; right: 60px;
+            width: 54px; height: 54px;
+            animation-delay: 2s;
+        }
+        .busy-bg-icon.icon-chat {
+            top: 120px; right: 30px;
+            width: 44px; height: 44px;
+            animation-delay: 1s;
+        }
+        @keyframes busyIconMove {
+            0% { transform: scale(1) translateY(0); opacity: 0.18; }
+            100% { transform: scale(1.2) translateY(24px); opacity: 0.28; }
+        }
         /* Busy animated background for search modal */
         .modal-body.bg-light {
             position: relative;
@@ -149,6 +175,10 @@
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body bg-light p-4 rounded-bottom">
+                        <!-- Animated themed icons -->
+                        <svg class="busy-bg-icon icon-bitcoin" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="22" fill="#f2a900"/><text x="24" y="30" text-anchor="middle" font-size="22" fill="#fff" font-family="Arial">₿</text></svg>
+                        <svg class="busy-bg-icon icon-tech" viewBox="0 0 54 54" fill="none"><rect x="8" y="14" width="38" height="26" rx="6" fill="#007bff"/><rect x="18" y="24" width="18" height="6" rx="2" fill="#e3eafc"/></svg>
+                        <svg class="busy-bg-icon icon-chat" viewBox="0 0 44 44" fill="none"><ellipse cx="22" cy="18" rx="16" ry="10" fill="#6c757d"/><rect x="10" y="28" width="24" height="8" rx="4" fill="#00c6ff"/></svg>
                         <div class="busy-bg-splash splash1"></div>
                         <div class="busy-bg-splash splash2"></div>
                         <div class="busy-bg-splash splash3"></div>
