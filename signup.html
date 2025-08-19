@@ -152,10 +152,50 @@
     </div>
     <!-- Modal Search End -->
     <script>
-    // Search modal logic
+    // Search modal logic - search across all site pages
     document.addEventListener('DOMContentLoaded', function() {
         var searchInput = document.getElementById('searchInput');
         var searchResults = document.getElementById('searchResults');
+        var pages = [
+            'index.html', 'homepage.html', 'about.html', 'blog.html', 'contact.html', 'faqs.html', 'project.html', 'service.html', 'team.html', 'testimonial.html', 'signup.html', 'login.html', 'profile.html', '404.html'
+        ];
+        function fetchAndSearch(keyword) {
+            var results = [];
+            var completed = 0;
+            searchResults.innerHTML = '<div class="text-center text-muted">Searching all pages...</div>';
+            pages.forEach(function(page) {
+                fetch(page)
+                    .then(function(response) { return response.text(); })
+                    .then(function(html) {
+                        var parser = new DOMParser();
+                        var doc = parser.parseFromString(html, 'text/html');
+                        doc.querySelectorAll('h1, h4, h5, h6, p, a').forEach(function(el) {
+                            if (el.textContent.toLowerCase().includes(keyword)) {
+                                var pageName = page.replace('.html','').replace('homepage','Home');
+                                results.push('<div class="mb-2"><b>' + pageName + ':</b> ' + el.textContent + '</div>');
+                            }
+                        });
+                        completed++;
+                        if (completed === pages.length) {
+                            if (results.length > 0) {
+                                searchResults.innerHTML = '<div class="alert alert-success">' + results.join('') + '</div>';
+                            } else {
+                                searchResults.innerHTML = '<div class="alert alert-warning">No results found.</div>';
+                            }
+                        }
+                    })
+                    .catch(function() {
+                        completed++;
+                        if (completed === pages.length) {
+                            if (results.length > 0) {
+                                searchResults.innerHTML = '<div class="alert alert-success">' + results.join('') + '</div>';
+                            } else {
+                                searchResults.innerHTML = '<div class="alert alert-warning">No results found.</div>';
+                            }
+                        }
+                    });
+            });
+        }
         if (searchInput) {
             searchInput.addEventListener('input', function() {
                 var keyword = searchInput.value.trim().toLowerCase();
@@ -163,18 +203,7 @@
                     searchResults.innerHTML = '';
                     return;
                 }
-                // Search in page titles and sections
-                var results = [];
-                document.querySelectorAll('h1, h4, h5, h6, p, a').forEach(function(el) {
-                    if (el.textContent.toLowerCase().includes(keyword)) {
-                        results.push('<div class="mb-2"><b>' + el.tagName + ':</b> ' + el.textContent + '</div>');
-                    }
-                });
-                if (results.length > 0) {
-                    searchResults.innerHTML = '<div class="alert alert-success">' + results.join('') + '</div>';
-                } else {
-                    searchResults.innerHTML = '<div class="alert alert-warning">No results found.</div>';
-                }
+                fetchAndSearch(keyword);
             });
         }
     });
