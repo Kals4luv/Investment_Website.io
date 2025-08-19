@@ -4,6 +4,39 @@
     <head>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
     <style>
+        /* Busy animated background for search modal */
+        .modal-body.bg-light {
+            position: relative;
+            overflow: hidden;
+        }
+        .busy-bg-splash {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.25;
+            animation: busySplashMove 6s linear infinite alternate;
+        }
+        .busy-bg-splash.splash1 {
+            width: 180px; height: 180px;
+            top: -40px; left: -60px;
+            background: radial-gradient(circle, #007bff 60%, #e3eafc 100%);
+            animation-delay: 0s;
+        }
+        .busy-bg-splash.splash2 {
+            width: 120px; height: 120px;
+            bottom: -30px; right: -40px;
+            background: radial-gradient(circle, #6c757d 60%, #f8f9fa 100%);
+            animation-delay: 2s;
+        }
+        .busy-bg-splash.splash3 {
+            width: 90px; height: 90px;
+            top: 60px; right: 10px;
+            background: radial-gradient(circle, #00c6ff 60%, #e3eafc 100%);
+            animation-delay: 1s;
+        }
+        @keyframes busySplashMove {
+            0% { transform: scale(1) translateY(0); }
+            100% { transform: scale(1.2) translateY(30px); }
+        }
         /* Busy overlay for search modal */
         .search-busy-overlay {
             position: absolute;
@@ -116,6 +149,9 @@
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body bg-light p-4 rounded-bottom">
+                        <div class="busy-bg-splash splash1"></div>
+                        <div class="busy-bg-splash splash2"></div>
+                        <div class="busy-bg-splash splash3"></div>
                     <div style="position:relative;">
                         <div class="input-group w-75 mx-auto d-flex shadow-sm">
                             <input type="search" class="form-control border-primary rounded-pill" id="searchInput" placeholder="🔍 Type to search..." aria-describedby="search-icon-1" style="font-size:1.1rem;">
