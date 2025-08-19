@@ -136,9 +136,12 @@
                     </div>
                     <div class="modal-body d-flex align-items-center">
                         <div class="input-group w-75 mx-auto d-flex">
-                            <input type="search" class="form-control p-3" placeholder="keywords" aria-describedby="search-icon-1">
+                            <input type="search" class="form-control p-3" id="searchInput" placeholder="keywords" aria-describedby="search-icon-1">
                             <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
                         </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div id="searchResults" class="w-100"></div>
                     </div>
                 </div>
             </div>
@@ -960,6 +963,64 @@ document.getElementById('applyBtn').addEventListener('click', function(e) {
         }
     </script>
     <script src="js/main.js"></script>
+    <script>
+    // Search modal logic - search across all site pages
+    document.addEventListener('DOMContentLoaded', function() {
+        var searchInput = document.getElementById('searchInput');
+        var searchResults = document.getElementById('searchResults');
+        // List of site pages to search
+        var pages = [
+            'index.html', 'homepage.html', 'about.html', 'blog.html', 'contact.html', 'faqs.html', 'project.html', 'service.html', 'team.html', 'testimonial.html', 'signup.html', 'login.html', 'profile.html', '404.html'
+        ];
+        function fetchAndSearch(keyword) {
+            var results = [];
+            var completed = 0;
+            searchResults.innerHTML = '<div class="text-center text-muted">Searching all pages...</div>';
+            pages.forEach(function(page) {
+                fetch(page)
+                    .then(function(response) { return response.text(); })
+                    .then(function(html) {
+                        var parser = new DOMParser();
+                        var doc = parser.parseFromString(html, 'text/html');
+                        doc.querySelectorAll('h1, h4, h5, h6, p, a').forEach(function(el) {
+                            if (el.textContent.toLowerCase().includes(keyword)) {
+                                var pageName = page.replace('.html','').replace('homepage','Home');
+                                results.push('<div class="mb-2"><b>' + pageName + ':</b> ' + el.textContent + '</div>');
+                            }
+                        });
+                        completed++;
+                        if (completed === pages.length) {
+                            if (results.length > 0) {
+                                searchResults.innerHTML = '<div class="alert alert-success">' + results.join('') + '</div>';
+                            } else {
+                                searchResults.innerHTML = '<div class="alert alert-warning">No results found.</div>';
+                            }
+                        }
+                    })
+                    .catch(function() {
+                        completed++;
+                        if (completed === pages.length) {
+                            if (results.length > 0) {
+                                searchResults.innerHTML = '<div class="alert alert-success">' + results.join('') + '</div>';
+                            } else {
+                                searchResults.innerHTML = '<div class="alert alert-warning">No results found.</div>';
+                            }
+                        }
+                    });
+            });
+        }
+        if (searchInput) {
+            searchInput.addEventListener('input', function() {
+                var keyword = searchInput.value.trim().toLowerCase();
+                if (!keyword) {
+                    searchResults.innerHTML = '';
+                    return;
+                }
+                fetchAndSearch(keyword);
+            });
+        }
+    });
+    </script>
 
     <script>
     // Frontend logic for registration, login, and profile

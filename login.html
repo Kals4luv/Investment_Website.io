@@ -24,6 +24,55 @@
     </style>
 </head>
 <body>
+    <!-- Modal Search Start -->
+    <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content rounded-0">
+                <div class="modal-header">
+                    <h4 class="modal-title mb-0" id="exampleModalLabel">Search by keyword</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body d-flex align-items-center">
+                    <div class="input-group w-75 mx-auto d-flex">
+                        <input type="search" class="form-control p-3" id="searchInput" placeholder="keywords" aria-describedby="search-icon-1">
+                        <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div id="searchResults" class="w-100"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Search End -->
+    <script>
+    // Search modal logic
+    document.addEventListener('DOMContentLoaded', function() {
+        var searchInput = document.getElementById('searchInput');
+        var searchResults = document.getElementById('searchResults');
+        if (searchInput) {
+            searchInput.addEventListener('input', function() {
+                var keyword = searchInput.value.trim().toLowerCase();
+                if (!keyword) {
+                    searchResults.innerHTML = '';
+                    return;
+                }
+                // Search in page titles and sections
+                var results = [];
+                document.querySelectorAll('h1, h4, h5, h6, p, a').forEach(function(el) {
+                    if (el.textContent.toLowerCase().includes(keyword)) {
+                        results.push('<div class="mb-2"><b>' + el.tagName + ':</b> ' + el.textContent + '</div>');
+                    }
+                });
+                if (results.length > 0) {
+                    searchResults.innerHTML = '<div class="alert alert-success">' + results.join('') + '</div>';
+                } else {
+                    searchResults.innerHTML = '<div class="alert alert-warning">No results found.</div>';
+                }
+            });
+        }
+    });
+    </script>
     <div class="login-container">
         <h2 class="mb-4 text-primary text-center">Login</h2>
         <form id="loginForm">
