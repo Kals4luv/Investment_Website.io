@@ -67,21 +67,22 @@
 
     <body>
     <!-- Modal Search Start -->
+    <!-- Modal Search Start -->
     <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-fullscreen">
             <div class="modal-content rounded-0">
-                <div class="modal-header">
-                    <h4 class="modal-title mb-0" id="exampleModalLabel">Search by keyword</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-header bg-gradient-primary text-white rounded-top shadow-sm">
+                    <h4 class="modal-title mb-0" id="exampleModalLabel">
+                        <i class="fas fa-search me-2"></i> Search the Site
+                    </h4>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body d-flex align-items-center">
-                    <div class="input-group w-75 mx-auto d-flex">
-                        <input type="search" class="form-control p-3" id="searchInput" placeholder="keywords" aria-describedby="search-icon-1">
-                        <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
+                <div class="modal-body bg-light p-4 rounded-bottom">
+                    <div class="input-group w-75 mx-auto d-flex shadow-sm">
+                        <input type="search" class="form-control border-primary rounded-pill" id="searchInput" placeholder="🔍 Type to search..." aria-describedby="search-icon-1" style="font-size:1.1rem;">
+                        <span id="search-icon-1" class="input-group-text bg-primary text-white rounded-pill" style="cursor:pointer;"><i class="fas fa-arrow-right"></i></span>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <div id="searchResults" class="w-100"></div>
+                    <div id="searchResults" class="mt-3 w-100"></div>
                 </div>
             </div>
         </div>
@@ -175,23 +176,50 @@
         <!-- Navbar & Hero End -->
 
         <!-- Modal Search Start -->
-        <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-fullscreen">
-                <div class="modal-content rounded-0">
-                    <div class="modal-header">
-                        <h4 class="modal-title mb-0" id="exampleModalLabel">Search by keyword</h4>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body d-flex align-items-center">
-                        <div class="input-group w-75 mx-auto d-flex">
-                            <input type="search" class="form-control p-3" placeholder="keywords" aria-describedby="search-icon-1">
-                            <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Modal Search End -->
+    <!-- Modal Search End -->
+        <style>
+        .modal-header.bg-gradient-primary {
+            background: linear-gradient(90deg, #007bff 0%, #00c6ff 100%);
+            color: #fff;
+            border-bottom: none;
+        }
+        .modal-body.bg-light {
+            background: #f8f9fa;
+        }
+        #searchInput {
+            transition: box-shadow 0.2s;
+        }
+        #searchInput:focus {
+            box-shadow: 0 0 0 2px #007bff33;
+        }
+        .input-group-text.bg-primary {
+            background: linear-gradient(90deg, #007bff 0%, #00c6ff 100%);
+            border: none;
+        }
+        .alert-success {
+            background: linear-gradient(90deg, #e0ffe0 0%, #c6ffdd 100%);
+            color: #155724;
+            border: none;
+            box-shadow: 0 2px 8px #c6ffdd55;
+        }
+        .alert-warning {
+            background: linear-gradient(90deg, #fff3cd 0%, #ffe0b2 100%);
+            color: #856404;
+            border: none;
+            box-shadow: 0 2px 8px #ffe0b255;
+        }
+        .search-result {
+            padding: 0.5rem 1rem;
+            border-radius: 1rem;
+            margin-bottom: 0.5rem;
+            background: #fff;
+            box-shadow: 0 1px 4px #007bff22;
+            transition: background 0.2s;
+        }
+        .search-result:hover {
+            background: #e3f2fd;
+        }
+        </style>
 
         <!-- Header Start -->
         <div class="container-fluid bg-breadcrumb">
@@ -490,17 +518,18 @@
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
     <script>
-    // Search modal logic - search across all site pages
+    // Beautiful search modal logic - search across all site pages
     document.addEventListener('DOMContentLoaded', function() {
         var searchInput = document.getElementById('searchInput');
         var searchResults = document.getElementById('searchResults');
+        var inputGroupText = document.querySelector('.input-group-text');
         var pages = [
             'index.html', 'homepage.html', 'about.html', 'blog.html', 'contact.html', 'faqs.html', 'project.html', 'service.html', 'team.html', 'testimonial.html', 'signup.html', 'login.html', 'profile.html', '404.html'
         ];
         function fetchAndSearch(keyword) {
             var results = [];
             var completed = 0;
-            searchResults.innerHTML = '<div class="text-center text-muted">Searching all pages...</div>';
+            searchResults.innerHTML = '<div class="text-center text-muted"><span class="spinner-border spinner-border-sm text-primary me-2"></span>Searching all pages...</div>';
             pages.forEach(function(page) {
                 fetch(page)
                     .then(function(response) { return response.text(); })
@@ -510,7 +539,7 @@
                         doc.querySelectorAll('h1, h4, h5, h6, p, a').forEach(function(el) {
                             if (el.textContent.toLowerCase().includes(keyword)) {
                                 var pageName = page.replace('.html','').replace('homepage','Home');
-                                results.push('<div class="mb-2"><b>' + pageName + ':</b> ' + el.textContent + '</div>');
+                                results.push('<div class="search-result"><b>' + pageName + ':</b> ' + el.textContent + '</div>');
                             }
                         });
                         completed++;
@@ -534,14 +563,27 @@
                     });
             });
         }
+        function triggerSearch() {
+            var keyword = searchInput.value.trim().toLowerCase();
+            if (!keyword) {
+                searchResults.innerHTML = '';
+                return;
+            }
+            fetchAndSearch(keyword);
+        }
         if (searchInput) {
-            searchInput.addEventListener('input', function() {
-                var keyword = searchInput.value.trim().toLowerCase();
-                if (!keyword) {
-                    searchResults.innerHTML = '';
-                    return;
+            searchInput.addEventListener('input', function(e) {
+                triggerSearch();
+            });
+            searchInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    triggerSearch();
                 }
-                fetchAndSearch(keyword);
+            });
+        }
+        if (inputGroupText) {
+            inputGroupText.addEventListener('click', function() {
+                triggerSearch();
             });
         }
     });
