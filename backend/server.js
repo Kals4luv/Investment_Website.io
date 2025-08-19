@@ -1,4 +1,18 @@
-const fetch = require('node-fetch'); // Add this if not already present
+
+const express = require('express');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const fs = require('fs');
+const path = require('path');
+const fetch = require('node-fetch');
+
+const app = express();
+app.use(cors({
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type']
+}));
+app.use(bodyParser.json());
 
 // Proxy for Kraken public ticker
 app.get('/api/kraken-ticker', async (req, res) => {
@@ -23,21 +37,6 @@ app.get('/api/binance-ticker', async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch Binance data' });
     }
 });
-// Express server for registration with MongoDB
-
-const express = require('express');
-const cors = require('cors');
-const bodyParser = require('body-parser');
-const fs = require('fs');
-const path = require('path');
-
-const app = express();
-app.use(cors({
-    origin: '*',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type']
-}));
-app.use(bodyParser.json());
 
 const USERS_FILE = path.join(__dirname, 'users.json');
 
