@@ -907,11 +907,15 @@ document.getElementById('applyBtn').addEventListener('click', function(e) {
             resultDiv.innerHTML = '<span class="text-muted">Loading...</span>';
             try {
                 const data = await getKrakenTicker();
+                if (!data.result) {
+                    resultDiv.innerHTML = `<span class="text-danger">Error: ${data.error ? data.error.join(', ') : 'No result from API.'}</span>`;
+                    return;
+                }
                 const pair = Object.keys(data.result)[0];
                 const price = data.result[pair].c[0];
                 resultDiv.innerHTML = `<span class="text-success fw-bold">BTC/USD: $${parseFloat(price).toLocaleString()}</span>`;
             } catch (e) {
-                resultDiv.innerHTML = '<span class="text-danger">Error fetching data.</span>';
+                resultDiv.innerHTML = `<span class="text-danger">Error fetching data: ${e.message}</span>`;
             }
         }
         async function getBinanceTickerUI() {
