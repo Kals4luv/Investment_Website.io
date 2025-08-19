@@ -4,14 +4,14 @@
 
 // KRAKEN PUBLIC MARKET DATA (REST API)
 async function getKrakenTicker(pair = 'XXBTZUSD') {
-    const url = `https://api.kraken.com/0/public/Ticker?pair=${pair}`;
+    const url = `http://localhost:5000/api/kraken-ticker?pair=${pair}`;
     const res = await fetch(url);
     return res.json();
 }
 
 // BINANCE PUBLIC MARKET DATA (REST API)
 async function getBinanceTicker(symbol = 'BTCUSDT') {
-    const url = `https://api.binance.com/api/v3/ticker/price?symbol=${symbol}`;
+    const url = `http://localhost:5000/api/binance-ticker?symbol=${symbol}`;
     const res = await fetch(url);
     return res.json();
 }

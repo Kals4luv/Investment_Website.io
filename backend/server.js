@@ -1,3 +1,28 @@
+const fetch = require('node-fetch'); // Add this if not already present
+
+// Proxy for Kraken public ticker
+app.get('/api/kraken-ticker', async (req, res) => {
+    const pair = req.query.pair || 'XXBTZUSD';
+    try {
+        const response = await fetch(`https://api.kraken.com/0/public/Ticker?pair=${pair}`);
+        const data = await response.json();
+        res.json(data);
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to fetch Kraken data' });
+    }
+});
+
+// Proxy for Binance public ticker
+app.get('/api/binance-ticker', async (req, res) => {
+    const symbol = req.query.symbol || 'BTCUSDT';
+    try {
+        const response = await fetch(`https://api.binance.com/api/v3/ticker/price?symbol=${symbol}`);
+        const data = await response.json();
+        res.json(data);
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to fetch Binance data' });
+    }
+});
 // Express server for registration with MongoDB
 
 const express = require('express');
